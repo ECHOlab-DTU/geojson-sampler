@@ -53,24 +53,7 @@ const dlBtn         = $('dl-btn');
 const infoBox       = $('info-box');
 const infoCost      = $('info-cost');
 
-// ── Tabs ───────────────────────────────────────────────────
-$('tab-upload').addEventListener('click', () => {
-  $('tab-upload').classList.add('active');
-  $('tab-paste').classList.remove('active');
-  $('pane-upload').style.display = '';
-  $('pane-paste').style.display = 'none';
-  loadBtn.style.display = 'none';
-  clearError();
-});
-
-$('tab-paste').addEventListener('click', () => {
-  $('tab-paste').classList.add('active');
-  $('tab-upload').classList.remove('active');
-  $('pane-paste').style.display = '';
-  $('pane-upload').style.display = 'none';
-  loadBtn.style.display = '';
-  clearError();
-});
+// ── Tabs ── (wired in draw.js, which also handles the Draw tab) ─
 
 // ── File upload & drag-drop ────────────────────────────────
 function handleFile(file) {
@@ -137,12 +120,20 @@ loadBtn.addEventListener('click', () => {
 
 geojsonInput.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'Enter') loadBtn.click(); });
 
+// Set to true by draw.js when shapes are already rendered on the map
+let drawModeActive = false;
+
 // ── Core load function ─────────────────────────────────────
-function loadGeoJSON(parsed) {
+function loadGeoJSON(parsed, skipRender) {
   if (!parsed.type) return showError('Missing "type" field');
 
   clearError();
-  clearAllLayers();
+  // In draw mode the caller manages its own layers; only clear point/sample layers
+  if (skipRender) {
+    clearPointLayers();
+  } else {
+    clearAllLayers();
+  }
   sampledPoints = [];
   copyBtn.disabled = dlBtn.disabled = true;
   infoBox.classList.remove('show');
@@ -151,25 +142,28 @@ function loadGeoJSON(parsed) {
   statArea.textContent   = '—';
 
   try {
-    geojsonLayer = L.geoJSON(parsed, {
-      style: {
-        color:       CONFIG.GEOJSON_COLOR,
-        weight:      CONFIG.GEOJSON_WEIGHT,
-        fillColor:   CONFIG.GEOJSON_FILL_COLOR,
-        fillOpacity: CONFIG.GEOJSON_FILL_OPACITY,
-        dashArray:   CONFIG.GEOJSON_DASH
-      },
-      pointToLayer: (f, ll) => L.circleMarker(ll, {
-        radius: 5,
-        color: CONFIG.GEOJSON_COLOR,
-        fillOpacity: 0.6
-      })
-    }).addTo(map);
+    if (!skipRender) {
+      geojsonLayer = L.geoJSON(parsed, {
+        style: {
+          color:       CONFIG.GEOJSON_COLOR,
+          weight:      CONFIG.GEOJSON_WEIGHT,
+          fillColor:   CONFIG.GEOJSON_FILL_COLOR,
+          fillOpacity: CONFIG.GEOJSON_FILL_OPACITY,
+          dashArray:   CONFIG.GEOJSON_DASH
+        },
+        pointToLayer: (f, ll) => L.circleMarker(ll, {
+          radius: 5,
+          color: CONFIG.GEOJSON_COLOR,
+          fillOpacity: 0.6
+        })
+      }).addTo(map);
 
-    map.fitBounds(geojsonLayer.getBounds(), { padding: CONFIG.MAP_FIT_PADDING });
+      map.fitBounds(geojsonLayer.getBounds(), { padding: CONFIG.MAP_FIT_PADDING });
+    }
 
-    // Rough area from bounding box shown before exact area is known from sampling
-    const b = geojsonLayer.getBounds();
+    // Compute rough bbox area for the point-cap estimate
+    const boundsSource = skipRender ? L.geoJSON(parsed) : geojsonLayer;
+    const b = boundsSource.getBounds();
     const midLat = (b.getNorth() + b.getSouth()) / 2;
     const kmLat = 111.32, kmLng = 111.32 * Math.cos(midLat * Math.PI / 180);
     areaKm2 = (b.getNorth() - b.getSouth()) * kmLat * (b.getEast() - b.getWest()) * kmLng;
