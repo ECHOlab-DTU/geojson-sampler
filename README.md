@@ -10,11 +10,3 @@ Upload a GeoJSON polygon, sample a grid of coordinates within it, and export the
 4. Export via **Copy CSV** or **Download**
 
 The exported CSV (`latitude,longitude`) can be fed directly into Nearby Search requests to retrieve place IDs across the polygon area.
-
-## Hosted
-
-[echolab-dtu.github.io/geojson-sampler](https://echolab-dtu.github.io/geojson-sampler)
-
-## Built by
-
-[EchoLab — The Observatory for Human Centered Engineering](https://echolab-dtu.github.io/web/)
