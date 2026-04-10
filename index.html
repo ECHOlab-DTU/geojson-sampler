@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoJSON Sampler</title>
 <link rel="stylesheet" href="vendor/leaflet.min.css"/>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="vendor/leaflet.draw.min.css"/>
 </head>
 <body>
 <div class="app">
@@ -31,6 +32,7 @@
       <div class="input-tabs">
         <button class="tab-btn active" id="tab-upload">↑ Upload</button>
         <button class="tab-btn" id="tab-paste">{ } Paste</button>
+        <button class="tab-btn" id="tab-draw">✏ Draw</button>
       </div>
 
       <!-- Upload tab -->
@@ -47,6 +49,17 @@
       <!-- Paste tab -->
       <div id="pane-paste" style="display:none">
         <textarea id="geojson-input" placeholder='Paste GeoJSON here…&#10;{"type":"FeatureCollection","features":[…]}'></textarea>
+      </div>
+
+      <!-- Draw tab -->
+      <div id="pane-draw" style="display:none">
+        <div class="draw-toolbar">
+          <button class="draw-tool-btn" id="draw-polygon-btn" title="Draw polygon">⬡ Polygon</button>
+          <button class="draw-tool-btn" id="draw-rect-btn" title="Draw rectangle">▭ Rectangle</button>
+          <button class="draw-tool-btn draw-tool-clear" id="draw-clear-btn" title="Clear shape" disabled>✕ Clear</button>
+        </div>
+        <div class="draw-hint" id="draw-hint">Select a tool, then draw on the map</div>
+
       </div>
 
       <div class="error-msg" id="geojson-error">Invalid GeoJSON</div>
@@ -110,7 +123,9 @@
 </div>
 
 <script src="vendor/leaflet.min.js"></script>
+<script src="vendor/leaflet.draw.min.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script src="draw.js"></script>
 </body>
 </html>
