@@ -40,8 +40,9 @@ header {
 }
 
 header .logo { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; flex: 1; }
-#github-link { display: flex; align-items: center; opacity: 0.7; transition: opacity 0.15s; }
+#github-link { display: flex; align-items: center; opacity: 0.85; transition: opacity 0.15s; }
 #github-link:hover { opacity: 1; }
+#github-link img { height: 22px; width: auto; display: block; filter: invert(1); }
 header .sep { color: #4a5580; }
 header .subtitle { font-size: 11px; color: #888; font-weight: 300; }
 
