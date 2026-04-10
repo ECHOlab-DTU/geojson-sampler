@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoJSON Sampler</title>
+<link rel="stylesheet" href="vendor/leaflet.min.css"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <a href="https://echolab-dtu.github.io/web/" target="_blank" rel="noopener" id="echolab-logo">
+      <img src="logo.png" alt="EchoLab">
+    </a>
+    <span class="logo">GeoJSON Sampler</span>
+  </header>
+
+  <div class="panel">
+
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="num" id="step1-num">1</span>
+        GeoJSON Input
+      </div>
+
+      <div class="input-tabs">
+        <button class="tab-btn active" id="tab-upload">↑ Upload</button>
+        <button class="tab-btn" id="tab-paste">{ } Paste</button>
+      </div>
+
+      <!-- Upload tab -->
+      <div id="pane-upload">
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" accept=".geojson,.json">
+          <div class="dz-icon">📂</div>
+          <div class="dz-label" id="dz-label">
+            <strong>Choose file</strong> or drag &amp; drop<br>.geojson / .json
+          </div>
+        </div>
+      </div>
+
+      <!-- Paste tab -->
+      <div id="pane-paste" style="display:none">
+        <textarea id="geojson-input" placeholder='Paste GeoJSON here…&#10;{"type":"FeatureCollection","features":[…]}'></textarea>
+      </div>
+
+      <div class="error-msg" id="geojson-error">Invalid GeoJSON</div>
+      <button class="btn btn-primary" id="load-btn" style="display:none">Load &amp; Display →</button>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="num" id="step2-num">2</span>
+        Sample Grid
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Spacing</span>
+        <input type="range" id="spacing-slider">
+        <span class="slider-val"><span id="spacing-val"></span> km</span>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Search r.</span>
+        <input type="range" id="radius-slider">
+        <span class="slider-val"><span id="radius-val"></span> m</span>
+      </div>
+
+      <button class="btn btn-primary" id="sample-btn" disabled>Sample Coordinates →</button>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="stat-points">—</div>
+          <div class="stat-label">Points</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-area">—</div>
+          <div class="stat-label">Area km²</div>
+        </div>
+      </div>
+
+      <div class="info-box" id="info-box">
+        <div class="info-row"><span>Est. cost</span><span class="info-val" id="info-cost">—</span></div>
+        <div class="info-divider"></div>
+        <div class="info-note" id="info-note"></div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">
+        <span class="num" id="step3-num">3</span>
+        Export Coordinates
+      </div>
+      <div class="export-btns">
+        <button class="btn btn-outline" id="copy-btn" disabled>Copy CSV</button>
+        <button class="btn btn-outline" id="dl-btn" disabled>Download</button>
+      </div>
+      <div class="hint" style="margin-top:8px">CSV: <span class="tag">lat,lng</span> one point per row</div>
+    </div>
+
+  </div>
+
+  <div id="map"></div>
+
+</div>
+
+<script src="vendor/leaflet.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
