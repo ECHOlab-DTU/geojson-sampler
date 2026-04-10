@@ -117,7 +117,42 @@ textarea.error { border-color: var(--danger); }
 }
 .tab-btn:first-child { border-radius: 3px 0 0 3px; }
 .tab-btn:last-child  { border-radius: 0 3px 3px 0; border-left: none; }
+.tab-btn:not(:first-child) { border-left: none; }
 .tab-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* Draw toolbar */
+.draw-toolbar {
+  display: flex; gap: 0; margin-bottom: 8px;
+}
+.draw-tool-btn {
+  flex: 1; padding: 7px 4px; background: var(--bg); border: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em;
+  cursor: pointer; color: var(--muted); transition: all 0.12s; white-space: nowrap;
+}
+.draw-tool-btn:first-child { border-radius: 3px 0 0 3px; }
+.draw-tool-btn:not(:first-child) { border-left: none; }
+.draw-tool-btn:last-child  { border-radius: 0 3px 3px 0; }
+.draw-tool-btn:hover:not(:disabled) { background: var(--navy-bg); color: var(--navy); border-color: var(--navy); }
+.draw-tool-btn--active { background: var(--navy); color: #fff !important; border-color: var(--navy) !important; }
+.draw-tool-btn.draw-tool-clear { color: var(--muted); }
+.draw-tool-btn.draw-tool-clear:hover:not(:disabled) { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+.draw-tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.draw-hint { font-size: 10px; color: var(--muted); line-height: 1.6; padding: 2px 0; }
+
+
+/* Shape click popup */
+.shape-popup .leaflet-popup-content-wrapper { border-radius: 3px; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.shape-popup .leaflet-popup-content { margin: 0; }
+.shape-popup-btns { display: flex; flex-direction: column; }
+.shape-popup-btn {
+  padding: 8px 16px; background: none; border: none; border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: 11px; cursor: pointer; color: var(--text);
+  text-align: left; transition: background 0.1s;
+}
+.shape-popup-btn:last-child { border-bottom: none; }
+.shape-popup-btn:hover { background: var(--navy-bg); }
+.shape-popup-btn--danger { color: var(--red); }
+.shape-popup-btn--danger:hover { background: var(--red-bg); }
 
 .error-msg { font-size: 10px; color: var(--danger); margin-top: 5px; display: none; }
 .error-msg.show { display: block; }
