@@ -185,7 +185,9 @@ sampleBtn.addEventListener('click', () => {
   // Guard against generating a huge number of points that may freeze the browser
   const spacingNow = parseFloat(spacingSlider.value);
   const bboxArea = (() => {
-    const b = geojsonLayer.getBounds();
+    // geojsonLayer is null in draw mode; fall back to a temp layer for bounds
+    const src = geojsonLayer || L.geoJSON(loadedGeoJSON);
+    const b = src.getBounds();
     const midLat = (b.getNorth() + b.getSouth()) / 2;
     const kmLat = 111.32, kmLng = 111.32 * Math.cos(midLat * Math.PI / 180);
     return (b.getNorth() - b.getSouth()) * kmLat * (b.getEast() - b.getWest()) * kmLng;
