@@ -17,17 +17,45 @@
   const panes   = { 'tab-upload': 'pane-upload', 'tab-paste': 'pane-paste', 'tab-draw': 'pane-draw' };
 
   function setActiveTab(id) {
+    const leavingDraw  = $('tab-draw').classList.contains('active') && id !== 'tab-draw';
+    const enteringDraw = id === 'tab-draw';
+
+    // Warn before clearing if there is something to lose
+    if (leavingDraw && drawnItems.getLayers().length > 0) {
+      if (!confirm('Switching tabs will clear your drawn shapes. Continue?')) return;
+    }
+    if (enteringDraw && loadedGeoJSON) {
+      if (!confirm('Switching to Draw will clear the loaded GeoJSON. Continue?')) return;
+    }
+
     tabBtns.forEach(t => {
       $(t).classList.toggle('active', t === id);
     });
     Object.entries(panes).forEach(([tab, pane]) => {
       $(pane).style.display = tab === id ? '' : 'none';
     });
-    // Show/hide the load button for paste tab only
     $('load-btn').style.display = id === 'tab-paste' ? '' : 'none';
 
-    if (id !== 'tab-draw') {
+    if (leavingDraw) {
       stopDrawing();
+      drawnItems.clearLayers();
+      clearPointLayers();
+      loadedGeoJSON = null;
+      sampleBtn.disabled = true;
+      resetStepIndicators();
+      statPoints.textContent = '—';
+      statArea.textContent   = '—';
+      infoBox.classList.remove('show');
+    }
+
+    if (enteringDraw) {
+      clearAllLayers();
+      loadedGeoJSON = null;
+      sampleBtn.disabled = true;
+      resetStepIndicators();
+      statPoints.textContent = '—';
+      statArea.textContent   = '—';
+      infoBox.classList.remove('show');
     }
   }
 
@@ -125,12 +153,16 @@
 
   // ── Per-layer popup with Remove action ────────────────────
   function bindLayerPopup(layer) {
-    layer.on('contextmenu', function (e) {
+    layer.on('click', function (e) {
       if (activeHandler) return;
 
-      L.popup({ closeButton: true, className: 'shape-popup' })
+      L.popup({ closeButton: false, className: 'shape-popup' })
         .setLatLng(e.latlng)
-        .setContent('<div class="shape-popup-btns"><button class="shape-popup-btn shape-popup-btn--danger" id="popup-remove">Remove shape</button></div>')
+        .setContent(
+          '<div class="shape-popup-btns">' +
+            '<button class="shape-popup-btn shape-popup-btn--danger" id="popup-remove">Remove shape</button>' +
+          '</div>'
+        )
         .openOn(map);
 
       setTimeout(() => {
