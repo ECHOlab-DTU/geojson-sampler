@@ -141,15 +141,16 @@ textarea.error { border-color: var(--danger); }
 
 
 /* Shape click popup */
-.shape-popup .leaflet-popup-content-wrapper { border-radius: 3px; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
-.shape-popup .leaflet-popup-content { margin: 0; }
+.shape-popup .leaflet-popup-content-wrapper { border-radius: 3px; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); overflow: hidden; }
+.shape-popup .leaflet-popup-content { margin: 0; min-width: 140px; }
 .shape-popup-btns { display: flex; flex-direction: column; }
 .shape-popup-btn {
-  padding: 8px 16px; background: none; border: none; border-bottom: 1px solid var(--border);
+  padding: 9px 12px; background: none; border: none;
+  border-bottom: 1px solid var(--border);
   font-family: var(--mono); font-size: 11px; cursor: pointer; color: var(--text);
-  text-align: left; transition: background 0.1s;
+  text-align: left; transition: background 0.1s; white-space: nowrap;
 }
-.shape-popup-btn:last-child { border-bottom: none; }
+.shape-popup-btns .shape-popup-btn:last-child { border-bottom: none; }
 .shape-popup-btn:hover { background: var(--navy-bg); }
 .shape-popup-btn--danger { color: var(--red); }
 .shape-popup-btn--danger:hover { background: var(--red-bg); }
