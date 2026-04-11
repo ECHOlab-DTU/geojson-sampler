@@ -136,6 +136,7 @@
       loadedGeoJSON = null;
       sampleBtn.disabled = true;
       resetStepIndicators();
+      $('stat-area').textContent = '—';
       $('draw-clear-btn').disabled = true;
       setHint('Select a tool, then draw on the map');
       return;
