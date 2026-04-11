@@ -142,7 +142,7 @@ textarea.error { border-color: var(--danger); }
 
 /* Shape click popup */
 .shape-popup .leaflet-popup-content-wrapper { border-radius: 3px; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.18); overflow: hidden; }
-.shape-popup .leaflet-popup-content { margin: 0; min-width: 140px; }
+.shape-popup .leaflet-popup-content { margin: 0; min-width: 0; width: auto !important; }
 .shape-popup-btns { display: flex; flex-direction: column; }
 .shape-popup-btn {
   padding: 9px 12px; background: none; border: none;
