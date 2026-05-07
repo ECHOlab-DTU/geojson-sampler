@@ -7,18 +7,12 @@ function fmtKm(km) { return parseFloat(km.toPrecision(3)).toString(); }
   ss.max   = CONFIG.SPACING_MAX_KM;
   ss.step  = CONFIG.SPACING_STEP_KM;
   ss.value = CONFIG.SPACING_DEFAULT_KM;
-  const sv = document.getElementById('spacing-val');
-  sv.min = CONFIG.SPACING_MIN_KM; sv.max = CONFIG.SPACING_MAX_KM; sv.step = CONFIG.SPACING_STEP_KM;
-  sv.value = fmtKm(CONFIG.SPACING_DEFAULT_KM);
 
   const rs = document.getElementById('radius-slider');
   rs.min   = CONFIG.RADIUS_MIN_M;
   rs.max   = CONFIG.RADIUS_MAX_M;
   rs.step  = CONFIG.RADIUS_STEP_M;
   rs.value = CONFIG.RADIUS_DEFAULT_M;
-  const rv = document.getElementById('radius-val');
-  rv.min = CONFIG.RADIUS_MIN_M; rv.max = CONFIG.RADIUS_MAX_M; rv.step = CONFIG.RADIUS_STEP_M;
-  rv.value = CONFIG.RADIUS_DEFAULT_M;
 
   document.getElementById('info-note').textContent =
     `$${CONFIG.COST_PER_CALL}/call (Nearby Search Basic). Deduplication will reduce unique place IDs returned.`;
@@ -52,6 +46,12 @@ const spacingSlider = $('spacing-slider');
 const spacingVal    = $('spacing-val');
 const radiusSlider  = $('radius-slider');
 const radiusVal     = $('radius-val');
+
+spacingVal.min = CONFIG.SPACING_MIN_KM; spacingVal.max = CONFIG.SPACING_MAX_KM; spacingVal.step = CONFIG.SPACING_STEP_KM;
+spacingVal.value = fmtKm(CONFIG.SPACING_DEFAULT_KM);
+radiusVal.min = CONFIG.RADIUS_MIN_M; radiusVal.max = CONFIG.RADIUS_MAX_M; radiusVal.step = CONFIG.RADIUS_STEP_M;
+radiusVal.value = CONFIG.RADIUS_DEFAULT_M;
+
 const statPoints    = $('stat-points');
 const statArea      = $('stat-area');
 const copyBtn       = $('copy-btn');
