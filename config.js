@@ -1,14 +1,14 @@
 const CONFIG = Object.freeze({
   // Grid / sampling
   SPACING_DEFAULT_KM:       1.5,
-  SPACING_MIN_KM:           0.2,
+  SPACING_MIN_KM:           0.025,
   SPACING_MAX_KM:           10.0,
-  SPACING_STEP_KM:          0.1,
+  SPACING_STEP_KM:          0.025,
 
   RADIUS_DEFAULT_M:         1000,
-  RADIUS_MIN_M:             100,
+  RADIUS_MIN_M:             25,
   RADIUS_MAX_M:             5000,
-  RADIUS_STEP_M:            100,
+  RADIUS_STEP_M:            25,
 
   // UX: show confirm dialog above this many estimated points
   POINT_CAP:                5000,
