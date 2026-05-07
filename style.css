@@ -190,7 +190,17 @@ input[type="range"]::-webkit-slider-thumb {
 }
 input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-.slider-val { font-size: 12px; font-weight: 500; color: var(--text); min-width: 48px; text-align: right; }
+.slider-val { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; }
+
+.num-input {
+  width: 52px; font-size: 12px; font-weight: 500; font-family: var(--mono);
+  color: var(--text); background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; padding: 1px 4px; text-align: right; outline: none;
+  -moz-appearance: textfield;
+}
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.num-input:focus { border-color: var(--navy); }
 
 .info-box {
   background: var(--warn-bg);

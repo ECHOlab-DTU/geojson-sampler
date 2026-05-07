@@ -1,3 +1,5 @@
+function fmtKm(km) { return parseFloat(km.toPrecision(3)).toString(); }
+
 // ── Init sliders and static text from CONFIG ───────────────
 (function initFromConfig() {
   const ss = document.getElementById('spacing-slider');
@@ -5,14 +7,18 @@
   ss.max   = CONFIG.SPACING_MAX_KM;
   ss.step  = CONFIG.SPACING_STEP_KM;
   ss.value = CONFIG.SPACING_DEFAULT_KM;
-  document.getElementById('spacing-val').textContent = CONFIG.SPACING_DEFAULT_KM.toFixed(1);
+  const sv = document.getElementById('spacing-val');
+  sv.min = CONFIG.SPACING_MIN_KM; sv.max = CONFIG.SPACING_MAX_KM; sv.step = CONFIG.SPACING_STEP_KM;
+  sv.value = fmtKm(CONFIG.SPACING_DEFAULT_KM);
 
   const rs = document.getElementById('radius-slider');
   rs.min   = CONFIG.RADIUS_MIN_M;
   rs.max   = CONFIG.RADIUS_MAX_M;
   rs.step  = CONFIG.RADIUS_STEP_M;
   rs.value = CONFIG.RADIUS_DEFAULT_M;
-  document.getElementById('radius-val').textContent = CONFIG.RADIUS_DEFAULT_M;
+  const rv = document.getElementById('radius-val');
+  rv.min = CONFIG.RADIUS_MIN_M; rv.max = CONFIG.RADIUS_MAX_M; rv.step = CONFIG.RADIUS_STEP_M;
+  rv.value = CONFIG.RADIUS_DEFAULT_M;
 
   document.getElementById('info-note').textContent =
     `$${CONFIG.COST_PER_CALL}/call (Nearby Search Basic). Deduplication will reduce unique place IDs returned.`;
@@ -99,11 +105,24 @@ function updateInfoBox() {
 }
 
 spacingSlider.addEventListener('input', () => {
-  spacingVal.textContent = parseFloat(spacingSlider.value).toFixed(1);
+  spacingVal.value = fmtKm(parseFloat(spacingSlider.value));
+});
+
+spacingVal.addEventListener('change', () => {
+  const v = Math.min(CONFIG.SPACING_MAX_KM, Math.max(CONFIG.SPACING_MIN_KM, parseFloat(spacingVal.value) || CONFIG.SPACING_MIN_KM));
+  spacingVal.value = fmtKm(v);
+  spacingSlider.value = v;
 });
 
 radiusSlider.addEventListener('input', () => {
-  radiusVal.textContent = parseInt(radiusSlider.value, 10);
+  radiusVal.value = parseInt(radiusSlider.value, 10);
+  if (sampledPoints.length > 0) redrawCircles();
+});
+
+radiusVal.addEventListener('change', () => {
+  const v = Math.min(CONFIG.RADIUS_MAX_M, Math.max(CONFIG.RADIUS_MIN_M, parseInt(radiusVal.value, 10) || CONFIG.RADIUS_MIN_M));
+  radiusVal.value = v;
+  radiusSlider.value = v;
   if (sampledPoints.length > 0) redrawCircles();
 });
 
